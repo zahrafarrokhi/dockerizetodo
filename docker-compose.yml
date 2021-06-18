@@ -1,0 +1,31 @@
+version: "3.7"
+
+services: 
+    django:
+        build: .
+        command: 
+            /bin/ash -c 'python3 manage.py migrate &&
+            gunicorn todo.wsgi:application --bind 0.0.0.0:8000'
+        volumes: 
+            - ./project:/home/app/
+        
+        depends_on: 
+            - pgdb
+    web:
+        build: nginx
+        ports: 
+            - 8080:80
+        depends_on: 
+            - django
+    pgdb:
+        image: postgres
+        volumes: 
+            - ~/Documents/postgres_vol:/var/lib/postgresql/data/
+        environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+
+
+volumes: 
+    postgres_vol:

@@ -1,0 +1,32 @@
+commands for postgres:
+
+sudo apt install postgresql
+
+sudo passwd postgres
+
+su - postgres
+
+psql
+
+alter role postgres password '123';
+
+sudo vi /etc/postgresql/12/main/pg_hba.conf
+
+change:
+local   all             postgres                                peer
+
+to:
+local   all             postgres                                md5
+
+sudo systemctl reload postgresql
+
+
+
+### create db in postgres
+
+su - postgres
+
+psql
+
+create database todo_db;
+
