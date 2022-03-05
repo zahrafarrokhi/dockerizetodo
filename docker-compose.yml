@@ -8,6 +8,8 @@ services:
             gunicorn todo.wsgi:application --bind 0.0.0.0:8000'
         volumes: 
             - ./project:/home/app/
+            - static:/home/app/static
+            - media:/home/app/media
         
         depends_on: 
             - pgdb
@@ -15,6 +17,9 @@ services:
         build: nginx
         ports: 
             - 8080:80
+        volumes:
+            - static:/var/www/static:ro
+            - media:/var/www/media:ro
         depends_on: 
             - django
     pgdb:
@@ -29,3 +34,5 @@ services:
 
 volumes: 
     postgres_vol:
+    static:
+    media:
